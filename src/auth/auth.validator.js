@@ -49,3 +49,10 @@ export const checkVerifyPinSchema = rawData => {
 
   return getPlainError(joi.validate(rawData, schema));
 };
+
+export const checkRefreshTokenSchema = (rawData) => {
+  const schema = joi.object().keys({
+    refreshToken: joi.string().required()
+  });
+  return getPlainError(joi.validate(rawData, schema));
+};
