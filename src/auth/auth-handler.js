@@ -1,6 +1,6 @@
 import { parseAPIGatewayEvent } from 'utils/parser';
 import { success, failure } from 'utils/response';
-import { checkSignUpSchema, checkSignInSchema, checkForgotPasswordSchema, checkVerifyPinSchema } from './auth.validator';
+import { checkSignUpSchema, checkSignInSchema, checkForgotPasswordSchema, checkVerifyPinSchema, checkRefreshTokenSchema } from './auth.validator';
 import Boom from 'boom';
 import connectToDatabase from '../utils/db.connection';
 import AuthController from './auth.controller';
@@ -79,3 +79,21 @@ export async function verifyPin(event, context, callback) { // eslint-disable-li
   }
   callback(null, response);
 }
+
+export async function refreshToken(event, context, callback) {
+  context.callbackWaitsForEmptyEventLoop = false;
+  let response;
+  try {
+    const { body } = await parseAPIGatewayEvent(event);
+    const validationError = checkRefreshTokenSchema(body);
+    if (validationError) {
+      throw Boom.badRequest(validationError);
+    }
+    const data = await auth.refreshToken(body);
+    response = success(data);
+  } catch (e) {
+    response = await failure(e, event);
+  }
+  callback(null, response);
+}
+

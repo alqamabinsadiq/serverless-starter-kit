@@ -196,4 +196,26 @@ export default class AuthController {
     };
     return this.authDb.confirmIncomingCode(params);
   }
+
+  async refreshToken(body) {
+    const { refreshToken } = body;
+    const params = {
+      AuthFlow: 'REFRESH_TOKEN_AUTH',
+      ClientId: process.env.COGNITO_CLIENT_ID,
+      AuthParameters: {
+        REFRESH_TOKEN: refreshToken
+      }
+    };
+    let authData;
+    try {
+      authData = await this.authDb.refreshToken(params);
+    } catch (error) {
+      throw Boom.forbidden(responseMessages.ERR_REFRESHING_TOKEN, error);
+    }
+    const { AuthenticationResult } = authData;
+    const { AccessToken, IdToken } = AuthenticationResult;
+    return { AccessToken, IdToken };
+  }
 }
+
+

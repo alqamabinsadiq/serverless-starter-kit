@@ -32,3 +32,10 @@ auth-verifyPin:
         method: "POST"
         path: "auth/verify-pin"
         cors: true
+auth-refreshToken:
+  handler: "src/auth/auth-handler.refreshToken"
+  events:
+    - http:
+        method: "PUT"
+        path: "auth/refresh"
+        cors: true

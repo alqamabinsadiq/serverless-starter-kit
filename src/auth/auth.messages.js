@@ -6,4 +6,5 @@ module.exports = {
   ALREADY_EXIST_EMAIL: 'What\'s this? It looks like someone is already using this email address. Do you have another you can use?',
   PRE_SIGNUP_ERR: 'Hold up. Something went wrong trying to sign you up. Let\'s try again.',
   GET_BY_SUB_ERR: 'Error occured while getting user by subId',
+  ERR_REFRESHING_TOKEN: 'Something went wrong while refreshing your session, please try again'
 };

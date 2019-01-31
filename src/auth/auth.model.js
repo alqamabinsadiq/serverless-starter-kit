@@ -22,4 +22,7 @@ export default class AuthModelClass {
   confirmIncomingCode(params) {
     return this.cognito.confirmForgotPassword(params).promise();
   }
+  refreshToken(params) {
+    return this.cognito.initiateAuth(params).promise();
+  }
 }
